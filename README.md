@@ -36,4 +36,23 @@ Export a requirements file:
 
 ## Exercise 1.2: Data Types in Python
 
+Completed tasks 1-5 and added them to exercise 1.2 folder
+
+Created each recipe individually using a Dictionary.  I chose a dictionary because it is easier 
+to add multiple different data types and label each.
+
+![Created Each Recipe in Dictionaries](./exercise1.2/create_recipes.png)
+
+Created an all_recipes list to store each recipe dictionary.  I chose to use a list for all_recipes
+since each recipe is the same data type and it's easier to go through a list.
+
+![Created all_recipes list](./exercise1.2/create_all_recipes.png)
+
+Added all the recipes to the "all_recipes" list and printed the all_recipes list.
+
+![Add Recipes to all recipes](./exercise1.2/all_recipes_full.png)
+
+Printed ingredients lists for all recipes.
+
+![Printed List of All Ingredients](./exercise1.2/all_ingredients_list.png)
 ...
