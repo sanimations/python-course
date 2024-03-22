@@ -95,3 +95,97 @@ Go into powershell/command prompt and go into the folder with Exercise1.3.  Then
 
 ![Example of Exercise1.3 running in Powershell](./exercise1.3/powershell_final_example.png)
 
+## Exercise 1.4: File Handling in Python
+
+### Part 1: Create recipe_input.py Script
+
+1. **Importing pickle module**
+   - Begin by importing the `pickle` module to work with binary files.
+
+2. **Define take recipe function:**
+    - Define a function `take_recipe()` to collect recipe details from the user. This function will:
+        - Prompt the user for the recipe name, cooking time, and ingredients.
+        - Calculate the difficulty of the recipe using the `calc_difficulty()` function.
+        - Return a dictionary containing the recipe details.
+
+3. **Calculating recipe difficulty:**
+   - Define the function `calc_difficulty()` to determine the difficulty level of a recipe based on certain criteria:
+     - If cooking time is less than 10 minutes and ingredients are fewer than 4, set difficulty to Easy.
+     - If cooking time is less than 10 minutes and ingredients are 4 or more, set difficulty to Medium.
+     - If cooking time is 10 minutes or more and ingredients are fewer than 4, set difficulty to Intermediate.
+     - If cooking time is 10 minutes or more and ingredients are 4 or more, set difficulty to Hard.
+
+**BE WARNED** The order of the code matters, a function cannot be called before it is written, so `calc_difficulty()` must be placed before `take_recipe()` since it will be called within `take_recipe()`.  
+
+![Importing pickle and creating two functions](./exercise1.4/part1_steps1-3.png)
+
+4. **Handling file input/output:**
+   - Prompt the user to input a filename for the binary file where recipe data will be stored.
+   - Utilize a try-except block to handle file operations:
+     - Attempt to open the specified file in read mode (`'rb'`).
+     - If the file is not found, create a new dictionary `data` containing `recipes_list` and `all_ingredients`.
+     - Close the file stream in the else block.
+     - Finally, extract the values from the dictionary into separate lists (`recipes_list` and `all_ingredients`).
+
+![Filename and try-except block for saving data](./exercise1.4/part1_step4.png)
+
+5. **Entering multiple recipes:**
+   - Ask the user how many recipes they want to enter.
+   - Utilize a for loop to iterate through the specified number of recipes.
+   - Within the loop, call the `take_recipe()` function to gather recipe details and append them to the `recipes_list`.
+   - Parse through each recipe's ingredients and add unique ingredients to the `all_ingredients` list.
+
+![Ask for number of recipes to loop through and save recipe data](./exercise1.4/part1_step5.png)
+
+6. **Gathering recipe data:**
+   - After gathering all recipe details, assemble the updated `recipes_list` and `all_ingredients` into a dictionary named `data`.
+   - This dictionary contains two keys: `recipes_list` and `all_ingredients`, each corresponding to their respective lists.
+
+7. **Saving data to a binary file:**
+   - Utilize a try-except block to handle file input/output operations for saving data.
+   - Open the specified binary file in write mode (`'wb'`).
+   - Utilize the `pickle.dump()` function to write the `data` dictionary to the binary file.
+   - Display a success message upon successful data save.
+   - Include error handling to catch any exceptions that may occur during the file save operation.
+
+![Gather recipe data and save to a binary file](./exercise1.4/part1_step6-7.png)
+
+### Part 2: Create recipe_search.py Script
+
+1. **Importing the pickle module:**
+   - Ensure that the script begins with importing the pickle module to enable working with binary files.
+
+2. **Defining the display_recipe() function:**
+   - Define a function called `display_recipe(recipe : dict)` that takes a recipe dictionary as an argument.
+   - Within this function, print all attributes of the recipe including its name, cooking time, ingredients, and difficulty.
+
+   ![Import pickle and create display_recipe() function](./exercise1.4/part2_steps1-2.png)
+
+3. **Defining the search_ingredient() function:**
+   - Define a function called `search_ingredient(data : dict)` that takes a data dictionary as an argument.
+   - The function should first display all available ingredients from the data dictionary under the key `all_ingredients`.
+   - Each ingredient should be displayed with a number using the `enumerate()` function.
+   - Then, implement a try block where the user selects a number corresponding to an ingredient from the list.
+   - Store the selected ingredient into a variable called `ingredient_searched`.
+   - Add an except clause to handle incorrect user inputs.
+   - Finally, add an else clause to iterate through every recipe in the data dictionary (using the key `recipes_list`).
+   - For each recipe, check if the `ingredient_searched` is in the recipe's ingredients list. If found, print the recipe's name.
+
+![Create search_ingredient() function with try-except blocks](./exercise1.4/part2_step3.png)
+
+4. **Asking for the filename:**
+   - Prompt the user to enter the name of the file containing the recipe data.
+
+5. **Opening and extracting data from the file:**
+   - Use a try block to open the file specified by the user using the pickle module.
+   - Extract the contents of the file into a variable called `data`.
+
+6. **Handling file not found:**
+   - Add an except block to handle the FileNotFoundError in case the specified file is not found.
+   - Display a warning message to the user indicating that the file hasn't been found.
+
+7. **Calling the search_ingredient() function:**
+   - Define an else block that is executed when the file is successfully opened and its contents are extracted.
+   - Call the `search_ingredient()` function, passing the `data` dictionary as an argument.
+
+   ![Create search_ingredient() function with try-except blocks](./exercise1.4/part2_steps4-7.png)
