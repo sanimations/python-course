@@ -8,7 +8,8 @@ This repository contains my coursework for the Python course. Each exercise is o
 - [Exercise 1.2: Data Types in Python](#exercise-12-data-types-in-python)
 - [Exercise 1.3: Operators & Functions in Python](#exercise-13-operators--functions-in-python)
 - [Exercise 1.4: File Handling in Python](#exercise-14-file-handling-in-python)
-- ...
+- [Exercise 1.5: Object-Oriented Programming in Python](#exercise-15-object--oriented-programming-in-python)
+- [Exercise 1.6: Databases in Python](#exercise-16-databases-in-python)
 
 ## Getting Started
 
@@ -189,3 +190,57 @@ Go into powershell/command prompt and go into the folder with Exercise1.3.  Then
    - Call the `search_ingredient()` function, passing the `data` dictionary as an argument.
 
    ![Create search_ingredient() function with try-except blocks](./exercise1.4/part2_steps4-7.png)
+
+   ## Exercise 1.5: Object-Oriented Programming in Python
+
+### Part 1. Define Recipe Class
+
+1. Define a class named `Recipe`.
+2. Define the following data attributes:
+    1. `name`: Name of the recipe.
+    2. `ingredients`: List of ingredients.
+    3. `cooking_time`: Time taken in minutes to carry out the recipe.
+    4. `difficulty`: Auto-generated attribute indicating the difficulty level.
+
+   ![Created Recipe Class and added init method](./exercise1.5/part1.png)
+
+### Part 2. Create Methods
+
+1. Initialization method to set up recipe attributes.
+2. Getter and setter methods for `name` and `cooking_time`.
+
+   ![Created getters and setters for name and cooking time](./exercise1.5/getters_setters.png)
+
+3. Method to calculate and get difficulty.
+
+   ![Created a method to calculate difficulty](./exercise1.5/calc_diff_method.png)
+
+4. Method to add ingredients, search ingredients, get ingredients, and update all ingredients.
+
+   ![Created methods for the ingredients list within the recipe](./exercise1.5/add_get_search_update_ingredients.png)
+
+5. Method to search for recipes by a specified ingredient.
+
+   ![Created a method to find all recipes with specific ingredient](./exercise1.5/recipe_search.png)
+
+6. Method to print recipe as a string.
+
+   ![Method for printing recipes as string](./exercise1.5/string_recipe.png)
+
+
+### Part 3: Working with Recipe Objects
+
+1. Instantiate objects for Tea, Coffee, Cake, and Banana Smoothie.
+
+2. Create a list called `recipes_list` with all recipe objects.
+
+3. Use the `recipe_search()` method to find recipes containing specific ingredients.
+
+   ![Recipe Object tests](./exercise1.5/test_class_methods.png)
+
+**OUTPUT**
+
+
+   ![Recipe Object test results](./exercise1.5/recipe_oop_printed.png)
+
+   ## Exercise 1.6: Databases in Python
