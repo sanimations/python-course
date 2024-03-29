@@ -10,6 +10,7 @@ This repository contains my coursework for the Python course. Each exercise is o
 - [Exercise 1.4: File Handling in Python](#exercise-14-file-handling-in-python)
 - [Exercise 1.5: Object-Oriented Programming in Python](#exercise-15-object--oriented-programming-in-python)
 - [Exercise 1.6: Databases in Python](#exercise-16-databases-in-python)
+- [Exercise 1.7: Object-Relational Mapping in Python](#exercise-17-object--relational-mapping-in-python)
 
 ## Getting Started
 
@@ -244,3 +245,109 @@ Go into powershell/command prompt and go into the folder with Exercise1.3.  Then
    ![Recipe Object test results](./exercise1.5/recipe_oop_printed.png)
 
    ## Exercise 1.6: Databases in Python
+
+### Part 1: Create & Connect Database
+
+1. Import the ```mysql.connector``` module and initialize the object ```conn``` to connect the parameters setup in MySQL.
+   This includes:
+      - Hostname = `localhost`
+      - Username = `cf-python`
+      - Password = `password`
+
+2. Initialize a ```cursor``` object from the ```conn```, then create a database called ```task_database```.
+- Use EXISTS when creating the database to avoid making duplicates of the same name:
+   ```python
+   cursor.execute("CREATE DATABASE IF NOT EXISTS task_database")
+   ```
+
+- Make sure to USE the correct database
+   ```python
+   cursor.execute("USE task_database")
+   ```
+
+3. Create a table called ```Recipes``` with the columns:
+   - id
+   - name
+   - ingredients
+   - cooking_time
+   - difficulty
+
+   All look familiar to previous tasks, except for id which will use ```INT PRIMARY KEY AUTO_INCREMENT``` to automatically increment its value
+
+### Part 2: Create the Main Menu
+
+1. Create a `main_menu(conn,cursor)` function that takes conn and cursor arguments.  Making sure to end your code with:
+```python
+if __name__ == "__main__":
+    main_menu(conn, cursor)
+```
+Doing this will ensure the main_menu method runs first.
+
+2. Inside the main_menu method, create a while loop that goes through multiple choices, only exiting the loop when the user types 'done'.
+
+3. Ask the user to make a choice and make the 4 choices:
+- `create_recipe(cursor)` to create a new recipe 
+- `search_recipe(cursor)` to search for a recipe by ingredient 
+- `update_recipe(cursor)` to update a current recipe 
+- `delete_recipe(cursor)` to remove a recipe from the Recipes table 
+
+
+4. Outside of the choices add `conn.commit` to commit any changes made after each method is complete. And outside of the loop add `cursor.close()` and `conn.close()` to exit the database after committing. 
+
+### Part 3: Creating a Recipe with create_recipe(cursor)
+
+Collect the data from the user and calculate the difficulty with calc_difficulty() method.
+
+```python
+   new_recipe = "INSERT INTO Recipes (name, ingredients, cooking_time, difficulty) VALUES (%s, %s, %s, %s)"
+   val = (r_name, r_ingredients, r_cooking_time, r_difficulty)
+   cursor.execute(new_recipe, val)
+```
+
+   ![Create Recipe](./exercise1.6/create_recipe.png)
+
+In the image, the recipe for ravioli is being created!
+
+### Part 4: Searching for a Recipe with search_recipe(cursor)
+
+Create a list of all the ingredients in all recipes, without any duplicates. Create a list and then loop through it allowing for an index column. Then search through all Recipes ingredients to show the user each recipe that contains the specified ingredient.
+
+```python
+   query = "SELECT * FROM Recipes WHERE LOWER(ingredients) LIKE %s"
+    cursor.execute(query, ("%" + search_ingredient + "%",))
+```
+
+   ![Search by Ingredient](./exercise1.6/search_by_ingredient.png)
+
+
+### Part 5: Updating a Recipe with update_recipe()
+
+Prompt user to choose a recipe to update by typing the recipe name from a list of each recipe. Then prompt the user for which section to update. Finally, ask what new value is desired.  Make sure to change cooking_time to an int if that is what changed.  Then update the recipe in the Recipes table:
+
+```python
+update_query = f"UPDATE Recipes SET {update_key} = %s WHERE name = %s"
+cursor.execute(update_query, (update_value, update_name))
+```
+
+   ![Update Recipe](./exercise1.6/update_recipe_1.png)
+
+**BUT WAIT**
+Check if the section being changed is cooking_time or ingredients because then the difficulty will need to be checked. Add two if statements checking for cooking_time or ingredients. Whichever is input, search the table for the other to run the calc_difficulty method.  Finally, UPDATE the new difficulty.
+
+   ![Updated Difficulty](./exercise1.6/update_ravioli.png)
+
+In the first image, ravioli had 4 ingredients and was labeled 'Hard', but after removing an ingredient the difficulty changed to 'Intermediate'
+
+### Part 6: Deleting a Recipe with delete_recipe()
+
+Prompt the user for the name of the recipe to be deleted. Use the DELETE statement to search the Recipes table and remove the one with the matching name:
+
+```python
+   delete_rec = input("Please enter recipe name you wish to remove: ")
+   cursor.execute("DELETE FROM Recipes WHERE name = %s", (delete_rec,))
+```
+
+   ![Delete Recipe](./exercise1.6/delete_recipe.png)
+
+
+   ## Exercise 1.7: Object-Relational Mapping in Python
