@@ -157,18 +157,6 @@ def search_by_ingredients():
         print("No recipes found with the specified ingredients.")
 
 
-    #ZZZ I made this in case all recipes that have even on ingredient is supposed to be shown
-    # conditions = []
-    # for ingredient in search_ingredients:
-    #     conditions.append(session.query(Recipe).filter(Recipe.ingredients.like(f"%{ingredient}%")).all())
-
-    # for recipes in conditions:
-    #     for recipe in recipes:
-    #         print(recipe)
-    #     print()
-
-
-
 def edit_recipe():
     if session.query(Recipe).count() < 1:
         print('No Recipes yet.  Go add some!')
@@ -191,8 +179,6 @@ def edit_recipe():
         chosen_edit = int(input("Enter your choice by typing '1', '2', or '3': "))
 
         if chosen_edit == 1:
-            # ZZZ recipe_to_edit.update({Recipe.name: new_name}) /AttributeError: 'Recipe' object has no attribute 'update'
-            # Get an error when using update so I do this now
             new_name = input('Please type the new name: ')
             if len(new_name) > 0:
                 recipe_to_edit.name = new_name
