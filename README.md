@@ -351,3 +351,106 @@ Prompt the user for the name of the recipe to be deleted. Use the DELETE stateme
 
 
    ## Exercise 1.7: Object-Relational Mapping in Python
+
+### Part 1: Set Up Your Script & SQLAlchemy
+
+1. Create a new script file and add all the necessary imports:
+
+```python
+from sqlalchemy import create_engine, Column, String, Integer
+from sqlalchemy.orm import declarative_base, sessionmaker
+```
+
+2. Make sure MySQL Server is up.  Use the credentials found to create an engine object called `engine` that connects to the desired database.  Then generate the Session class, bind it to the engine, and initialize the session object.
+
+```python
+engine = create_engine("mysql://cf-python:password@localhost/task_database")
+Session = sessionmaker(bind=engine)
+session = Session()
+```
+
+### Part 2: Create Your Model and Table
+
+1. Store the declarative base class into a variable called `Base`.  Create the Recipe model with the Recipe class inheriting the Base class.  Also, set the `__tablename__ = 'final_recipes'`
+
+2. The table should be made of an id, name, ingredients, cooking_time, and difficulty column, the same as exercise 1.6.  A visual of the table is shown below:
+
+| Field        | Type         | Null | Key | Default | Extra          |
+|--------------|--------------|------|-----|---------|----------------|
+| id           | int          | NO   | PRI | NULL    | auto_increment |
+| name         | varchar(50)  | YES  |     | NULL    |                |
+| ingredients  | varchar(255) | YES  |     | NULL    |                |
+| cooking_time | int          | YES  |     | NULL    |                |
+| difficulty   | varchar(20)  | YES  |     | NULL    |                |
+
+
+3. Define a `__repr__` method that shows the recipe id, name, and difficulty.
+
+4. Define a `__str__` method that will be shown anytime the recipe is printed. Add all the information of the recipe and make sure it is shown nicely. Be creative.
+
+5. Define a method called `calc_difficulty` which will calculate how difficult a recipe is when called.
+
+6. Once complete, create the corresponding table on the database with `Base.metadata.create_all(engine)`
+
+### Part 3: Define your Main Operations as Functions
+
+1. `create_recipe()`
+- Collect the details for the recipe name and cooking time
+- Check the inputs are all appropriate
+- Collect the ingredients from the user by asking how many ingredients they would like to enter and then adding each ingredient to a list
+- Convert the ingredients list into a string
+- Generate the recipe difficulty with `calc_difficulty()`
+- Add the recipe with `session.add(new_recipe)` and then committing the recipe to the session
+
+   ![Create Recipe](./exercise1.7/create_ravioli.png)
+
+2. `view_all_recipes()`
+- Check if there are any recipes, if not then tell the user to add more before trying again
+- Retrieve all Recipes and loop through them calling each of their `__str__` methods by printing them
+
+   ![view All Recipes](./exercise1.7/view_all_recipes.png)
+
+3. `search_by_ingredients`
+- Check with `count()` method if there are any recipes, if not then tell the user to add more before trying again
+- Create a list of all the ingredients, no duplicates, each with a number next to them
+- Let the user choose any number of ingredients, check to make sure the numbers are on the list
+- Make a new list of ingredients filled with what the user wants to search by
+- Create a conditions list and then loop through the ingredients in the recipes see if all the searched ingredients are met using like_term string
+- Finally, `filter()` through the query with the recipes containing the conditions and display them using the `__str__` method
+
+### Example of searching by one ingredient:
+   ![search by one ingredient](./exercise1.7/search_by_one_ingredient.png)
+
+### Example of searching by multiple ingredients:
+
+   ![search by multiple ingredients](./exercise1.7/search_by_multiple_ingredients.png)
+
+4. `edit_recipe()`
+- Check with `count()` method if there are any recipes, if not then tell the user to add more before trying again
+- Show the user all the recipes with the `__repr__` method because they only need the name and ID for now
+- Display the chosen recipe, then let the user pick a recipe by ID and prompt them to type '1', '2', or '3' depending on what they want to change
+- Create if-else statements based on what they chose to change, checking to make sure that the newly input changes are valid
+- If cooking time or ingredients are changed then difficulty will also need to be updated
+- Commit the changes with `session.commit()`
+
+   ![Update Milkshake](./exercise1.7/update_milkshake.png)
+
+5. `delete_recipe()`
+- Check with `count()` method if there are any recipes, if not then tell the user to add more before trying again
+- Show the user all the recipes with the `__repr__` method
+- Prompt the user to type the recipe ID of the recipe they would like removed, then make sure it is a valid ID
+- Ask the user if they are sure they would like to delete the recipe, if prompted YES then remove it with `session.delete(recipe)`
+
+   ![Remove Stew](./exercise1.7/remove_stew.png)
+
+### Example from MySQL showing the updated Milkshakes and removed Stew
+   ![Final Recipes in MySQL](./exercise1.7/mySQL_final_recipes.png)
+
+   ### Part 4: Design Your Main Menu
+
+Same as exercise 1.6. Create a `while` loop that will break once the user types 'quit'  Except in this one don't use conn or cursor and instead use `session.commit()`, `session.close()`, and `engine.dispose()`. This is to commit any final changes and close out of everything. Adding if **name = main** is useful and should become a habit for python files. Point this to `main_menu()` so the process may begin. I added some ASCII text art to main menu to spice it up a bit more and help with readability.  I added it with the help of a [text to ascii art converter](https://www.asciiart.eu/text-to-ascii-art).
+
+```python
+if __name__ == "__main__":
+    main_menu()
+```
