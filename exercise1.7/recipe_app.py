@@ -8,18 +8,6 @@ session = Session()
 
 Base = declarative_base()
 
-# Taken from mySQL
-# +--------------+--------------+------+-----+---------+----------------+
-# | Field        | Type         | Null | Key | Default | Extra          |
-# +--------------+--------------+------+-----+---------+----------------+
-# | id           | int          | NO   | PRI | NULL    | auto_increment |
-# | name         | varchar(50)  | YES  |     | NULL    |                |
-# | ingredients  | varchar(255) | YES  |     | NULL    |                |
-# | cooking_time | int          | YES  |     | NULL    |                |
-# | difficulty   | varchar(20)  | YES  |     | NULL    |                |
-# +--------------+--------------+------+-----+---------+----------------+
-
-
 class Recipe(Base):
     __tablename__ = 'final_recipes'
 
