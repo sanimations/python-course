@@ -1,9 +1,15 @@
 <!DOCTYPE html>
+{% load static %}
+
 <html>
    <title>
-       Bookstore Home
+       Book's Home
    </title>
    <body>
-       Welcome to our Bookstore
+       <h1 style="text-align:center">Welcome to our Bookstore</h1>
+       <br>
+       <p style="text-align:center">
+       <img src="{% static 'sales/images/bookstore.jpg' %}" alt="home" width="600" height="300">
+       </p>
    </body>
 </html>
